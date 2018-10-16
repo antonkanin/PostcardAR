@@ -1,41 +1,42 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Video;
 
-public class ShowVideo : MonoBehaviour {
-
+public class ShowVideo : MonoBehaviour
+{
     [SerializeField] private VideoPlayer m_VideoPlayer = null;
-    [SerializeField] private float m_FadeOutTime = 1f;
+    [SerializeField] private float m_FadeInTime = 2f;
 
-    private float m_EnabledTime;
+    private Material m_VideoMaterial;
+    private float m_AlphaValue;
 
-    void Start ()
-	{
-	    m_VideoPlayer = GetComponent<VideoPlayer>();
-	}
+    void Start()
+    {
+        m_VideoPlayer = GetComponent<VideoPlayer>();
+        m_VideoMaterial = GetComponent<MeshRenderer>().material;
+    }
 
     private void OnEnable()
     {
-        m_EnabledTime = Time.time;
-        m_VideoPlayer.targetCameraAlpha = 0;
+        m_AlphaValue = 0;
+        UpdateVideoAlpha(m_AlphaValue);
+        StartCoroutine(VideoFadeIn());
     }
 
-    void Update()
+    private IEnumerator VideoFadeIn()
     {
-        float currentAlpha = m_VideoPlayer.targetCameraAlpha;
-        float alphaDiff = Mathf.Abs(1.0f - currentAlpha);
-        const float m_fadeRate = 10;
-        Debug.Log(m_VideoPlayer.targetCameraAlpha);
-
-        if (alphaDiff > 0.00001f)
+        float time = 0f;
+        while (time <= m_FadeInTime)
         {
-            m_VideoPlayer.targetCameraAlpha = currentAlpha + Time.deltaTime / 3.0f;
+            time += Time.deltaTime;
+            m_AlphaValue += Time.deltaTime / m_FadeInTime;
+            UpdateVideoAlpha(m_AlphaValue);
+            yield return null;
         }
-
-        //if ((m_EnabledTime + m_FadeOutTime < Time.time) && (m_VideoPlayer.isPlaying == false))
-        //{
-        //    m_VideoPlayer.Play();
-        //}
     }
 
-    // Update is called once per frame
+    private void UpdateVideoAlpha(float alpha)
+    {
+        m_VideoMaterial.SetFloat("_AlphaRange", alpha);
+    }
 }
