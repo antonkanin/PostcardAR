@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Vuforia;
 
-public class CameraFocusController : MonoBehaviour
+public class FocusController : MonoBehaviour
 {
     void Start()
     {

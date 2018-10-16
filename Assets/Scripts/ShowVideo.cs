@@ -19,7 +19,7 @@ public class ShowVideo : MonoBehaviour
     private void OnEnable()
     {
         m_AlphaValue = 0;
-        UpdateVideoAlpha(m_AlphaValue);
+        //UpdateVideoAlpha(m_AlphaValue);
         StartCoroutine(VideoFadeIn());
     }
 
@@ -37,6 +37,9 @@ public class ShowVideo : MonoBehaviour
 
     private void UpdateVideoAlpha(float alpha)
     {
-        m_VideoMaterial.SetFloat("_AlphaRange", alpha);
+        if (m_VideoMaterial != null)
+        {
+            m_VideoMaterial.SetFloat("_AlphaRange", alpha);
+        }
     }
 }
