@@ -4,7 +4,6 @@ using UnityEngine.Video;
 
 public class ShowVideo : MonoBehaviour
 {
-    [SerializeField] private VideoPlayer m_VideoPlayer = null;
     [SerializeField] private float m_FadeInTime = 2f;
 
     private Material m_VideoMaterial;
@@ -12,7 +11,6 @@ public class ShowVideo : MonoBehaviour
 
     void Start()
     {
-        m_VideoPlayer = GetComponent<VideoPlayer>();
         m_VideoMaterial = GetComponent<MeshRenderer>().material;
     }
 
